@@ -9,7 +9,7 @@ import os
 # ESP32-CAM IP address
 esp32cam_url = 'http://192.168.43.230/640x480.jpg'
 
-# Function to fetch images from ESP32-CAM
+# Function to fetch images from ESP32-CAM asfsadjflkasdflkasjdflksjdflkdjflkasjdkl bla bla bla
 def get_esp32cam_image():
     try:
         response = requests.get(esp32cam_url, timeout=10)
