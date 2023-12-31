@@ -29,6 +29,8 @@ const Home = ({ showNav, setShowNav }) => {
               <h1>Time</h1>
               <h1>Status</h1>
             </div>
+
+            
             {/* Attendence ko table ma vako record Ya maping gareko xa */}
             {Attendence_Date.map((A_data, index) => (
               <>
