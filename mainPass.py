@@ -17,6 +17,8 @@ def uploadImage():
             file.save('static/files/' + file.filename)
         
         print('upload image called')
+        # name = "Subin"
+        # imageSrc = f'http://localhost:5000/files/{file.filename}'
     return "From upload image"
 
 @app.route('/attendence', methods=['GET'])
