@@ -26,8 +26,8 @@ const Home = ({ showNav, setShowNav }) => {
               <h1>S.N</h1>
               <h1>Name</h1>
               <h1>Date</h1>
-              <h1>Time</h1>
-              <h1>Status</h1>
+              <h1>Period 1</h1>
+              <h1>Period 2</h1>
             </div>
 
             

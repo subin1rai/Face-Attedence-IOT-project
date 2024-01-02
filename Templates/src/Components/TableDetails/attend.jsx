@@ -23,7 +23,7 @@ function App() {
                 {/* Iterate through the data and display */}
                 {data.map((item, index) => (
                     <li key={index}>
-                        Name: {item.name}, Age: {item.age}, City: {item.city}
+                        Name: {item.name}
                     </li>
                 ))}
             </ul>
