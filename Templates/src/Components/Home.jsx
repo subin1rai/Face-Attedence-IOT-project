@@ -2,6 +2,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { MdAddBox } from "react-icons/md";
 import Attendence_Date from "../Components/TableDetails/Attendence_Data";
 import Att_Row from "../Components/TableDetails/Att_Row";
+import CsvComponent from "../Components/TableDetails/Att_Row";
 
 const Home = ({ showNav, setShowNav }) => {
   return (
@@ -30,9 +31,11 @@ const Home = ({ showNav, setShowNav }) => {
               <h1>Period 2</h1>
             </div>
 
+            <CsvComponent />
+
             
             {/* Attendence ko table ma vako record Ya maping gareko xa */}
-            {Attendence_Date.map((A_data, index) => (
+            {/* {Attendence_Date.map((A_data, index) => (
               <>
                 <Att_Row
                   id={A_data.id}
@@ -43,7 +46,7 @@ const Home = ({ showNav, setShowNav }) => {
                   status={A_data.status}
                 />
               </>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>

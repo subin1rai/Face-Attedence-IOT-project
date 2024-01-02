@@ -32,8 +32,13 @@ const CsvComponent = () => {
   const renderRows = () => {
     if (!csvData) return null;
 
-    const rows = csvData.split('\n').map((row, index) => {
+    const rows = csvData.split('\n')
+    const rows_non_header = rows.slice(1) 
+    return rows_non_header.map((row, index) => {
       const columns = row.split(',');
+      if(columns.length == 1){
+        return null
+      }
       return (
         <Att_Row
           key={index}
@@ -45,7 +50,7 @@ const CsvComponent = () => {
         />
       );
     });
-    return rows;
+  
   };
 
   return (
