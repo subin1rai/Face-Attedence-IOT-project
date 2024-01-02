@@ -14,7 +14,7 @@ def uploadImage():
     if(request.method == 'POST'):
         file = request.files['image']
         if file:
-            file.save('static/files/' + file.filename)
+            file.save('ImagesBasic/' + file.filename)
         
         print('upload image called')
         # name = "Subin"
