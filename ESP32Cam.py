@@ -6,12 +6,10 @@ import requests
 import pandas as pd
 import os
 
-
 # ESP32-CAM IP address
-esp32cam_url = 'http://192.168.43.230/640x480.jpg'
+esp32cam_url = 'http://192.168.45.225/640x480.jpg'
 
-
-# Function to fetch images from ESP32-CAM asfsadjflkasdflkasjdflksjdflkdjflkasjdkl bla bla bla
+# Function to fetch images from ESP32-CAM
 def get_esp32cam_image():
     try:
         response = requests.get(esp32cam_url, timeout=10)
@@ -85,8 +83,8 @@ def mark_attendance(name, file_path, status='Present', num_periods=4):
                     # Adjust the period start and end times based on the period number
                     # You can customize these based on your schedule
                     if i == 1:
-                        time_start_period = '10:43:00'
-                        time_end_period = '09:44:00'
+                        time_start_period = '12:40:00'
+                        time_end_period = '12:50:00'
                     elif i == 2:
                         time_start_period = '10:45:00'
                         time_end_period = '10:46:00'
@@ -97,8 +95,8 @@ def mark_attendance(name, file_path, status='Present', num_periods=4):
                     if time_start_period <= time_now <= time_end_period:
                         # Update the attendance for the correct period
                         # Update the attendance for the correct period
-                        df.loc[df['Name'] == name, 'Date'] = pd.to_datetime(date_today, errors='coerce').strftime('%Y-%m-%d').astype(str)
-                        df.loc[df['Name'] == name, period_present_time_key] = now.strftime('%H:%M:%S').astype(str)
+                        df.loc[df['Name'] == name, 'Date'] = pd.to_datetime(date_today, errors='coerce').strftime('%Y-%m-%d')
+                        df.loc[df['Name'] == name, period_present_time_key] = now.strftime('%H:%M:%S')
                         df.to_csv(file_path, index=False)  # Save the changes to the same file
                         print(f"{name} marked {status} at {now.strftime('%H:%M:%S')} on {date_today} ({period_status_key})")
                         break
@@ -151,4 +149,3 @@ while True:
 
         cv2.imshow('ESP32-CAM', img)
         cv2.waitKey(1)
-
