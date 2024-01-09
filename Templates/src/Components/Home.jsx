@@ -27,8 +27,8 @@ const Home = ({ showNav, setShowNav }) => {
               <h1>S.N</h1>
               <h1>Name</h1>
               <h1>Date</h1>
-              <h1>Period 1</h1>
-              <h1>Period 2</h1>
+              <h1>Cloud/IOT</h1>
+              <h1>Software</h1>
             </div>
 
             <CsvComponent />
