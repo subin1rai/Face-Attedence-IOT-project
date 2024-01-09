@@ -7,7 +7,7 @@ import pandas as pd
 import os
 
 # ESP32-CAM IP address
-esp32cam_url = 'http://192.168.45.225/640x480.jpg'
+esp32cam_url = 'http://192.168.46.227/640x480.jpg'
 
 # Function to fetch images from ESP32-CAM
 def get_esp32cam_image():
@@ -25,7 +25,7 @@ path = 'ImagesBasic'
 images = []
 classNames = []
 mylist = os.listdir(path)
-print(mylist)
+print(mylist, "this is myList")
 for cl in mylist:
     curImg = cv2.imread(f'{path}/{cl}')
     images.append(curImg)
@@ -65,14 +65,20 @@ def mark_attendance(name, file_path, status='Present', num_periods=4):
     name = name.upper()
     df['Name'] = df['Name'].str.upper()
 
+    print(f"Checking attendance for {name}")
+
     # Check if the student is in the attendance file
     if name in df['Name'].values:
+        print(f"{name} found in the attendance file.")
         # Check if the student has already been marked present
         if df.loc[df['Name'] == name, 'Period1Status'].iloc[0] != 'Present':
+            print(f"{name} has not been marked present yet.")
+
             # Update the status for the detected student
             now = datetime.now()
             date_today = now.strftime('%Y-%m-%d')
             time_now = now.strftime('%H:%M:%S')
+            print(f"Current time: {time_now}")
 
             for i in range(1, num_periods + 1):
                 period_status_key = f'Period{i}Status'
@@ -80,34 +86,54 @@ def mark_attendance(name, file_path, status='Present', num_periods=4):
 
                 # Check if the student has already been marked present in the current period
                 if df.loc[df['Name'] == name, period_status_key].iloc[0] != 'Present':
+                    print(f"Checking attendance for {name} in period {i}")
                     # Adjust the period start and end times based on the period number
                     # You can customize these based on your schedule
-                    if i == 1:
-                        time_start_period = '12:40:00'
-                        time_end_period = '12:50:00'
-                    elif i == 2:
-                        time_start_period = '10:45:00'
-                        time_end_period = '10:46:00'
 
-                
+                    match i:
+                        case 2: #softwarw
+                            time_start_period = '15:21:00'
+                            time_end_period = '15:22:00'
+                        
+                        case 1:  #cloud
+                            time_start_period = '15:22:01'
+                            time_end_period = '15:23:00'
+                        
+
+                    # if i == 2:
+                    #     time_start_period = '14:22:00'
+                    #     time_end_period = '14:24:00'
+                    # elif i == 1:
+                    #     time_start_period = '14:24:01'
+                    #     time_end_period = '14:26:00'
                     # Add more conditions for other periods as needed
 
+                    print(f"Checking time condition for {name} in period {i}")
                     if time_start_period <= time_now <= time_end_period:
-                        # Update the attendance for the correct period
+                        print(f"{name} can be marked present between {time_start_period} and {time_end_period} for period {i}.")
                         # Update the attendance for the correct period
                         df.loc[df['Name'] == name, 'Date'] = pd.to_datetime(date_today, errors='coerce').strftime('%Y-%m-%d')
+                        df.loc[df['Name'] == name, period_status_key] = status
                         df.loc[df['Name'] == name, period_present_time_key] = now.strftime('%H:%M:%S')
-                        df.to_csv(file_path, index=False)  # Save the changes to the same file
+
                         print(f"{name} marked {status} at {now.strftime('%H:%M:%S')} on {date_today} ({period_status_key})")
-                        break
+
+                        # If student is detected in the second time slot, also mark present for the second period
+                        if i == 2 and time_start_period <= time_now <= time_end_period:
+                            print(f"{name} detected in second time slot. Marking present for period 2.")
+                            df.loc[df['Name'] == name, 'Period2Status'] = status
+                            df.loc[df['Name'] == name, 'Period2PresentTime'] = now.strftime('%H:%M:%S')
+
+                        df.to_csv(file_path, index=False)  # Save the changes to the same file
                     else:
-                        print(f"{name} can only be marked present between {time_start_period} and {time_end_period} for {period_status_key}.")
+                        print(f"{name} can only be marked present between {time_start_period} and {time_end_period} for period {i}.")
             else:
                 print(f"{name} has already been marked present in all time slots today.")
         else:
             print(f"{name} has already been marked present.")
     else:
         print(f"Error: {name} not found in the attendance file.")
+
 
 # Define CSV file path and student names
 file_path = 'Attendance.csv'
